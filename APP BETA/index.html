@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BusinessPrep AI — Beta Simulator</title>
+<link rel="stylesheet" href="styles.css">
+<script src="https://js.puter.com/v2/"></script>
+</head>
+<body>
+</head>
+<body>
+
+<header>
+  <div class="logo">BusinessPrep AI</div>
+  <div class="logo-sub">Beta Simulator</div>
+  <div class="header-right">
+    <button onclick="window._app.openHistory()" style="background:transparent;border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-dim);font-family:var(--font-body);font-size:12px;padding:6px 14px;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-dim)'">📊 History</button>
+    <div id="auth-dot"></div>
+    <span id="auth-label" style="font-size:12px;color:var(--text-dim);"></span>
+    <button id="signout-btn" onclick="window._app.handleSignOut()" style="display:none;background:transparent;border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-muted);font-family:var(--font-body);font-size:12px;padding:6px 12px;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.borderColor='var(--danger)';this.style.color='var(--danger)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-muted)'">Sign Out</button>
+  </div>
+</header>
+
+<!-- LANDING -->
+<div class="screen active" id="landing-screen">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-left">
+      <div class="landing-kicker">Free · No Limits · AI-Powered</div>
+      <h1 class="landing-title">
+        <em>BusinessPrep AI:</em><br>
+        Your Personal<br>Preparation Tool
+      </h1>
+      <p class="landing-tagline">Practice business interviews with an elite AI interviewer modeled after McKinsey, Goldman, BCG, and more. Get scored feedback every session.</p>
+
+      <!-- Auth / CTA area — swaps on sign in -->
+      <div id="hero-auth-area">
+
+        <!-- Signed OUT state -->
+        <div id="hero-signed-out">
+          <div style="display:flex;flex-direction:column;gap:9px;max-width:340px;">
+            <button class="auth-btn-primary" onclick="window._app.handleSignIn()" id="hero-signin-btn">
+              Sign In with Puter →
+            </button>
+            <button class="auth-btn-secondary" onclick="window._app.handleSignUp()" id="hero-signup-btn">
+              Create a Free Account
+            </button>
+            <div class="auth-loading" id="hero-auth-loading" style="display:none;justify-content:flex-start;padding:4px 0;">
+              <div class="auth-spinner"></div>
+              <p id="hero-auth-msg" style="font-size:13px;color:var(--text-dim);">Signing in...</p>
+            </div>
+            <p style="font-size:11px;color:var(--text-muted);margin-top:4px;line-height:1.6;">
+              Free Puter account required to track your progress.<br>
+              No credit card. By signing in you agree to our <button onclick="window._app.openLegal()" style="background:none;border:none;color:var(--text-muted);font-family:var(--font-body);font-size:11px;cursor:pointer;text-decoration:underline;padding:0;">Terms &amp; Privacy</button>.
+            </p>
+          </div>
+        </div>
+
+        <!-- Signed IN state -->
+        <div id="hero-signed-in" style="display:none;">
+          <!-- Display name (no edit button) -->
+          <div style="margin-bottom:20px;">
+            <span style="font-size:22px;font-family:var(--font-display);color:var(--text);">Welcome, <span id="display-name-label" style="color:var(--accent);font-style:italic;">—</span></span>
+          </div>
+          <div class="hero-cta-row">
+            <button class="landing-cta" onclick="window._app.showScreen('setup-screen')">Start Practicing →</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="mock-header">
+        <div class="mock-dot g"></div>
+        <div class="mock-dot a"></div>
+        <span style="margin-left:4px;">BusinessPrep AI · Beta Simulator</span>
+      </div>
+      <div class="mock-msg ai">
+        <div class="mock-who">Interviewer — Marcus Cole · McKinsey</div>
+        A retail chain is losing market share to e-commerce. You've been brought in to advise. How do you structure your approach to diagnosing the problem?
+      </div>
+      <div class="mock-msg user">
+        <div class="mock-who" style="text-align:right;">You</div>
+        I'd start by breaking revenue into volume and price, then look at where we're losing customers — online vs in-store — and compare against competitor positioning...
+      </div>
+      <div class="mock-msg ai">
+        <div class="mock-who">Interviewer</div>
+        Good structure. If you found that volume is down 18% but price is stable, where do you look next?
+      </div>
+      <div class="mock-score-bar">
+        <div class="mock-score-label">Session Score</div>
+        <div class="mock-score-num">74 <span style="font-size:16px;color:var(--text-muted);">/ 100</span></div>
+        <div class="mock-bar-track"><div class="mock-bar-fill"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Features row -->
+  <div class="features-row">
+    <div class="feature-card">
+      <span class="feature-icon">🎯</span>
+      <div class="feature-title">Adaptive Difficulty</div>
+      <p class="feature-desc">Start at Beginner with simple foundational questions and work your way up to full consulting-level pressure at Advanced. Each level is calibrated to real firm expectations.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🔀</span>
+      <div class="feature-title">Randomized Scenarios</div>
+      <p class="feature-desc">Every session generates a unique case with a different interviewer name, firm, and scenario. No two interviews are the same — across Consulting, Finance, Marketing, and more.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">📊</span>
+      <div class="feature-title">Scored Feedback</div>
+      <p class="feature-desc">After each interview a separate AI call scores your performance 0–100, highlights strengths, areas to improve, and reflects on your thinking style. Your history is saved locally.</p>
+    </div>
+  </div>
+
+  <!-- Ticker -->
+  <div class="ticker-wrap">
+    <div class="ticker-track" id="ticker-track"></div>
+  </div>
+
+  <!-- Footer -->
+  <div class="landing-footer-bar">
+    <span>Created by <span class="creator">Rishaan Bhakta</span> &nbsp;·&nbsp; Powered by Puter AI &nbsp;·&nbsp; Free forever &nbsp;·&nbsp; <button onclick="window._app.openLegal()" style="background:none;border:none;color:var(--text-muted);font-family:var(--font-body);font-size:12px;cursor:pointer;text-decoration:underline;padding:0;" onmouseover="this.style.color='var(--text-dim)'" onmouseout="this.style.color='var(--text-muted)'">Terms &amp; Privacy</button></span>
+    <div class="footer-feedback">
+      <input type="text" id="feedback-input" placeholder="Leave feedback or a suggestion..." />
+      <button onclick="window._app.submitFeedback()">Send →</button>
+      <span class="feedback-sent" id="feedback-sent">✓ Sent — thank you!</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- LEGAL MODAL -->
+<div id="legal-modal" style="display:none;position:fixed;inset:0;background:rgba(8,9,12,0.92);z-index:500;align-items:center;justify-content:center;padding:24px;overflow-y:auto;">
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:44px;max-width:620px;width:100%;max-height:88vh;overflow-y:auto;position:relative;animation:cardUp 0.3s ease forwards;">
+    <button onclick="window._app.closeLegal()" style="position:absolute;top:20px;right:20px;background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--text-muted);font-family:var(--font-body);font-size:12px;padding:5px 12px;cursor:pointer;">✕ Close</button>
+
+    <h2 style="font-family:var(--font-display);font-size:26px;font-weight:700;color:var(--text);margin-bottom:6px;">Terms &amp; Privacy</h2>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:32px;">Last updated: May 2026 &nbsp;·&nbsp; BusinessPrep AI (Beta)</p>
+
+    <!-- Terms -->
+    <div style="margin-bottom:28px;">
+      <h3 style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);">Terms of Use</h3>
+      <p style="font-size:14px;color:var(--text-dim);line-height:1.8;margin-bottom:12px;">BusinessPrep AI is a free, AI-powered interview practice tool intended for educational and personal preparation purposes only. By using this application, you agree to the following terms.</p>
+      <p style="font-size:14px;color:var(--text-dim);line-height:1.8;margin-bottom:12px;"><strong style="color:var(--text);">For practice only.</strong> BusinessPrep AI is not affiliated with, endorsed by, or connected to any of the companies mentioned on this site (including McKinsey, Goldman Sachs, BCG, JPMorgan, or any other firm). Company names are referenced solely for educational simulation purposes.</p>
+      <p style="font-size:14px;color:var(--text-dim);line-height:1.8;margin-bottom:12px;"><strong style="color:var(--text);">No guarantees.</strong> AI-generated interview feedback, scores, and evaluations are for practice purposes only and do not reflect actual hiring standards, decisions, or outcomes. We make no guarantees about the accuracy, completeness, or reliability of any feedback provided.</p>
+      <p style="font-size:14px;color:var(--text-dim);line-height:1.8;margin-bottom:12px;"><strong style="color:var(--text);">Age requirement.</strong> You must be at least 13 years old to use this application. By using it, you confirm that you meet this requirement.</p>
+      <p style="font-size:14px;color:var(--text-dim);line-height:1.8;"><strong style="color:var(--text);">Limitation of liability.</strong> BusinessPrep AI and its creator are not liable for any decisions made based on feedback received through this tool. Use it as one of many resources in your preparation — not as a sole determinant of readiness.</p>
+    </div>
+
+    <!-- Privacy -->
+    <div style="margin-bottom:28px;">
+      <h3 style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);">Privacy Policy</h3>
+      <p style="font-size:14px;color:var(--text-dim);line-height:1.8;margin-bottom:12px;"><strong style="color:var(--text);">Data we collect.</strong> BusinessPrep AI does not collect, store, or transmit any personal data on our servers. We have no server infrastructure — everything runs in your browser.</p>
+      <p style="font-size:14px;color:var(--text-dim);line-height:1.8;margin-bottom:12px;"><strong style="color:var(--text);">Local storage.</strong> Your session history (scores, field, difficulty, date) is saved in your browser's localStorage. This data never leaves your device and is deleted when you clear your browser data or use the "Clear History" button in the app.</p>
+      <p style="font-size:14px;color:var(--text-dim);line-height:1.8;margin-bottom:12px;"><strong style="color:var(--text);">Puter AI.</strong> AI features are powered by <a href="https://puter.com" target="_blank" style="color:var(--accent);">Puter.com</a>. When you use the chat feature, your messages are processed by Puter's servers. Please review <a href="https://puter.com/privacy" target="_blank" style="color:var(--accent);">Puter's Privacy Policy</a> for details on how they handle your data.</p>
+      <p style="font-size:14px;color:var(--text-dim);line-height:1.8;margin-bottom:12px;"><strong style="color:var(--text);">Feedback.</strong> If you submit feedback using the form on this site, your message is processed by <a href="https://formspree.io" target="_blank" style="color:var(--accent);">Formspree</a> and delivered to the site owner via email. No other personal data is collected alongside your message.</p>
+      <p style="font-size:14px;color:var(--text-dim);line-height:1.8;"><strong style="color:var(--text);">No ads, no tracking.</strong> We do not run advertisements, use tracking cookies, or share any data with third parties for marketing purposes.</p>
+    </div>
+
+    <!-- Disclaimer -->
+    <div style="background:var(--surface2);border:1px solid var(--border);border-left:2px solid var(--accent);border-radius:var(--radius-sm);padding:16px 18px;">
+      <p style="font-size:13px;color:var(--text-dim);line-height:1.75;font-style:italic;">BusinessPrep AI is an independent project created for educational purposes. It is not affiliated with, sponsored by, or approved by any company mentioned within the application. All company names and trademarks belong to their respective owners.</p>
+    </div>
+
+    <button onclick="window._app.closeLegal()" style="width:100%;background:var(--accent);color:var(--bg);border:none;border-radius:var(--radius-sm);padding:13px;font-family:var(--font-body);font-size:14px;font-weight:600;cursor:pointer;margin-top:24px;transition:opacity 0.18s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Close</button>
+  </div>
+</div>
+
+<!-- SETUP -->
+<div class="screen" id="setup-screen">
+
+  <div class="setup-top-bar">
+    <button class="back-btn" onclick="window._app.showScreen('landing-screen')">← Home</button>
+    <div>
+      <h2>Configure Your Interview</h2>
+    </div>
+    <p style="margin-left:auto;font-size:13px;color:var(--text-muted);">Each session generates a unique scenario</p>
+  </div>
+
+  <div class="setup-body">
+    <!-- Left col: Difficulty -->
+    <div class="setup-col">
+      <span class="setup-col-title">01 — Difficulty Level</span>
+      <p class="setup-col-desc">Choose how much pressure you want. Start at Beginner if you're new to business interviews.</p>
+      <div class="opt-grid c1">
+        <button class="opt-btn" data-group="difficulty" data-value="Beginner" onclick="window._app.pick(this)">
+          <span class="opt-name">Beginner</span>
+          <span class="opt-desc">Basic concepts, simple questions, fully guided</span>
+        </button>
+        <button class="opt-btn" data-group="difficulty" data-value="Intermediate" onclick="window._app.pick(this)">
+          <span class="opt-name">Intermediate</span>
+          <span class="opt-desc">Case-style questions, moderate structure expected</span>
+        </button>
+        <button class="opt-btn" data-group="difficulty" data-value="Advanced" onclick="window._app.pick(this)">
+          <span class="opt-name">Advanced</span>
+          <span class="opt-desc">Full firm pressure, no hints, deep follow-ups</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Right col: Field -->
+    <div class="setup-col">
+      <span class="setup-col-title">02 — Business Field</span>
+      <p class="setup-col-desc">Select the industry you want to practice for. Each field uses real firm interview styles.</p>
+      <div class="opt-grid c2">
+        <button class="opt-btn" data-group="field" data-value="Consulting" onclick="window._app.pick(this)">
+          <span class="opt-name">Consulting</span>
+          <span class="opt-desc">McKinsey, Bain, BCG</span>
+        </button>
+        <button class="opt-btn" data-group="field" data-value="Finance / Investment Banking" onclick="window._app.pick(this)">
+          <span class="opt-name">Finance / IB</span>
+          <span class="opt-desc">Goldman, Morgan Stanley</span>
+        </button>
+        <button class="opt-btn" data-group="field" data-value="Marketing / Business Strategy" onclick="window._app.pick(this)">
+          <span class="opt-name">Marketing / Strategy</span>
+          <span class="opt-desc">Brand & go-to-market</span>
+        </button>
+        <button class="opt-btn" data-group="field" data-value="General Business / Entrepreneurship" onclick="window._app.pick(this)">
+          <span class="opt-name">Entrepreneurship</span>
+          <span class="opt-desc">General business acumen</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="setup-footer">
+    <button class="start-btn" id="start-btn" disabled onclick="window._app.startInterview()">Begin Interview →</button>
+    <span class="setup-hint" id="setup-hint">Select a difficulty and field to continue</span>
+  </div>
+</div>
+
+<!-- INTERVIEW -->
+<div class="screen" id="interview-screen">
+  <div class="sidebar">
+    <div><span class="sb-label">Firm</span><div class="sb-value" id="sb-firm">—</div></div>
+    <div><span class="sb-label">Difficulty</span><div class="diff-pill" id="sb-diff">—</div></div>
+    <div class="tracker">
+      <div class="tracker-label">Progress</div>
+      <div class="dot-row" id="dot-row"></div>
+    </div>
+    <div class="tips-panel">
+      <div class="tip-hd">Tip</div>
+      <p id="tip-text">Structure your answer before speaking. Lead with a conclusion, then support it.</p>
+    </div>
+    <button class="restart-side" onclick="window._app.restart()">↩ Restart</button>
+  </div>
+
+  <div class="chat-col">
+    <div class="messages" id="messages"></div>
+    <div class="input-zone">
+      <div class="input-wrap">
+        <textarea id="chat-input" rows="1" placeholder="Type your answer..."></textarea>
+        <button id="send-btn" onclick="window._app.sendMsg()">➤</button>
+      </div>
+      <div class="input-hint" id="chat-send-hint">Enter to send · Shift+Enter for new line</div>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS SCREEN -->
+<div class="screen" id="results-screen">
+
+  <!-- Loading state -->
+  <div id="results-loading" style="flex:1;display:flex;align-items:center;justify-content:center;">
+    <div class="spinner-wrap">
+      <div class="spinner"></div>
+      <p>Scoring your interview...</p>
+    </div>
+  </div>
+
+  <!-- Left: score -->
+  <div class="results-left" id="results-left" style="display:none;">
+    <div class="results-label">Your Score</div>
+    <div class="results-score-big" id="res-score">—</div>
+    <div class="results-score-denom">/ 100</div>
+    <div class="bar-track" style="margin-top:4px;">
+      <div class="bar-fill" id="bar-fill"></div>
+    </div>
+    <div class="bar-sublabel" id="bar-sublabel">—</div>
+    <div class="results-meta" id="res-meta">—</div>
+    <div class="results-actions">
+      <button class="btn-next" id="btn-next-diff" onclick="window._app.progressDifficulty()" style="display:none;">—</button>
+      <button class="btn-new" onclick="window._app.restart()">New Interview</button>
+      <button class="btn-back-chat" onclick="window._app.goHome()">← Home</button>
+    </div>
+  </div>
+
+  <!-- Right: feedback -->
+  <div class="results-right" id="results-right" style="display:none;">
+
+    <div class="results-section">
+      <h3>✓ &nbsp;Areas Done Well</h3>
+      <div class="results-list" id="res-strengths"></div>
+    </div>
+
+    <div class="results-section">
+      <h3>↑ &nbsp;Areas to Improve</h3>
+      <div class="results-list" id="res-weaknesses"></div>
+    </div>
+
+    <div class="results-section">
+      <h3>Thinking Style</h3>
+      <div class="reflection-box" id="res-reflection">—</div>
+    </div>
+
+    <div class="results-section">
+      <h3>Your Feedback</h3>
+      <div class="feedback-wrap">
+        <div class="fb-q">Would you use BusinessPrep AI again?</div>
+        <div class="fb-opts">
+          <button class="fb-btn" id="fb-yes" onclick="window._app.fbPick(this)">Definitely yes</button>
+          <button class="fb-btn" id="fb-maybe" onclick="window._app.fbPick(this)">Maybe</button>
+          <button class="fb-btn" id="fb-no" onclick="window._app.fbPick(this)">Probably not</button>
+        </div>
+        <div class="fb-q">What could be improved?</div>
+        <textarea class="fb-ta" id="results-feedback-text" placeholder="Optional — share your thoughts..."></textarea>
+        <button onclick="window._app.submitResultsFeedback()" style="margin-top:10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-dim);font-family:var(--font-body);font-size:13px;padding:9px 20px;cursor:pointer;transition:all 0.15s;width:100%;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-dim)'">Send Feedback →</button>
+        <div id="results-feedback-sent" style="display:none;font-size:12px;color:var(--success);margin-top:8px;text-align:center;">✓ Sent — thank you!</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- HISTORY SCREEN -->
+<div class="screen" id="history-screen">
+  <div class="history-top">
+    <button class="back-btn" id="history-back-btn" onclick="window._app.showScreen('landing-screen')">← Home</button>
+    <h2>Score History</h2>
+    <button class="clear-btn" onclick="window._app.clearHistory()">Clear History</button>
+  </div>
+  <div class="history-body">
+    <div class="history-left">
+      <div class="stat-box">
+        <div class="stat-box-label">Sessions</div>
+        <div class="stat-box-value" id="stat-sessions">—</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-box-label">Average Score</div>
+        <div class="stat-box-value" id="stat-avg">—</div>
+        <div class="stat-box-sub">out of 100</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-box-label">Best Score</div>
+        <div class="stat-box-value" id="stat-best">—</div>
+        <div class="stat-box-sub">out of 100</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-box-label">Current Streak</div>
+        <div class="stat-box-value" id="stat-streak">—</div>
+        <div class="stat-box-sub">sessions practiced</div>
+      </div>
+    </div>
+    <div class="history-right">
+      <div id="chart-section">
+        <h3>Score Trend (Last 10)</h3>
+        <div class="chart-wrap" id="chart-wrap"></div>
+      </div>
+      <h3>All Sessions</h3>
+      <div id="session-list"></div>
+    </div>
+  </div>
+</div>
+
+
+<script src="script.js"></script>
+</body>
+</html>
